@@ -1,3 +1,4 @@
+// 头部组件
 <template>
   <header class="header">
     <el-row type="flex" justify="space-between" class="main">
@@ -15,58 +16,79 @@
         <nuxt-link to="/hotel">酒店</nuxt-link>
         <nuxt-link to="/air">国内机票</nuxt-link>
       </el-row>
-  <!-- 登录/用户信息 -->
-      <el-row type="flex" align="middle">
+
+
+
+      <!-- 登录/用户信息 -->
+      <el-row type="flex" align="middle"  v-if="$store.state.user.userInfo.token">
         <!-- 如果用户存在则展示用户信息，用户数据来自store -->
-       <el-dropdown v-if="$store.state.user.userInfo.token">
+        <el-dropdown
+        >
+              <!-- 头像 -->
           <el-row type="flex" align="middle" class="el-dropdown-link">
-        <nuxt-link to="#">
-            <img :src="$axios.defaults.baseURL + $store.state.user.userInfo.user.defaultAvatar"/>
-            {{$store.state.user.userInfo.user.nickname}} 
-        </nuxt-link>
-        <i class="el-icon-caret-bottom el-icon--right"></i>
-     </el-row>
+            <nuxt-link to="#">
+              <img :src="$axios.defaults.baseURL + $store.state.user.userInfo.user.defaultAvatar" />
+              {{$store.state.user.userInfo.user.nickname}}
+            </nuxt-link>
+            <i class="el-icon-caret-bottom el-icon--right"></i>
+          </el-row>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item>
               <nuxt-link to="#">个人中心</nuxt-link>
             </el-dropdown-item>
+
+            
+              <!-- click.native 给第三方组件添加事件需要加上native -->
             <el-dropdown-item>
               <div @click="handleLogout">退出</div>
             </el-dropdown-item>
           </el-dropdown-menu>
+          
         </el-dropdown>
+
+
+
         <!-- 消息 -->
-        <el-dropdown class="">
+        <el-dropdown class>
           <span class="el-dropdown-link">
-             <nuxt-link to="#">
-            <i class="el-icon-bell "></i>
-                   消息
-            <i class="el-icon-caret-bottom"></i>
+            <nuxt-link to="#">
+              <i class="el-icon-bell"></i>
+              消息
+              <i class="el-icon-caret-bottom"></i>
             </nuxt-link>
           </span>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item>
-               <nuxt-link to="www.baidu.con">
-                  她扒拉我
-               </nuxt-link>
-              </el-dropdown-item>
+              <nuxt-link to="www.baidu.con">她扒拉我</nuxt-link>
+            </el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
+
         
-        <!-- 不存在用户信息展示登录注册链接 -->
-        <nuxt-link to="/user/login" class="account-link">登录 / 注册</nuxt-link>
       </el-row>
+
+      <!-- 不存在用户信息展示登录注册链接 -->
+      <nuxt-link to="/user/login" class="account-link" v-else>登录 / 注册</nuxt-link>
     </el-row>
-    
   </header>
 </template>
 <script>
+
 export default {
- 
+  // 组件加载
+  mounted () {
+    
+  },
   methods: {
     // 用户退出
-    handleLogout() {}
-    
+    handleLogout() {
+      // 清除登录信息
+      this.$store.commit('user/clearUserInfo');
+      this.$message({
+        type:"success",
+        message:"退出成功"
+      })
+    }
   }
 };
 </script>

@@ -1,3 +1,4 @@
+// 页脚部分
 <template>
     <div class="footer-wrapper">
         <div class="footer">

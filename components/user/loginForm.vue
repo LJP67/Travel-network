@@ -1,3 +1,4 @@
+//这个是登录页面组件
 <template>
 
     <!-- model:绑定数据对象 -->
@@ -74,7 +75,7 @@ export default {
                     // 请求登录接口
                     this.$axios({
                         url: "/accounts/login",
-                        method: "POST", // method没有s
+                        method: "POST",  // method没有s
                         data: this.form
                     }).then(res => {
                         // 如何调用mutations下的setUserInfo的方法 commit

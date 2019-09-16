@@ -1,4 +1,4 @@
-// 这是注册页面
+// 这是注册页面组件
 <template>
     <el-form 
         :model="form" 
@@ -11,7 +11,7 @@
                 v-model="form.username">
                 </el-input>
             </el-form-item>  
-            <el-form-item class="form-item">
+            <el-form-item class="form-item" prop="captcha">
                 <el-input 
                 placeholder="验证码"
                 v-model="form.captcha" >
@@ -58,6 +58,9 @@
 <script>
 export default {
     data(){
+          // rule当前的规则，目前是空的
+        // value输入框的值
+        // callback是回调函数，必须要调用
         // 确认密码
         const  validatePass = (rule,value,callback) =>{
             if (value === '') {
@@ -96,6 +99,10 @@ export default {
                 message:'请输入用户密码',
                 trigger:'blur'
             }]
+             checkPassword: [{ 
+              validator: checkPassword,
+              trigger: 'blur' 
+              }]
         }
     },
     methods: {
@@ -118,11 +125,12 @@ export default {
                 })
                 return;
             }
+            // 发送验证码
             this.$axios({
                 url:'captchas',
                 method:'POST',
                 data:{
-                    tel:this.form.username
+                    tel:this.form.username//手机号码
                 }
             }).then(res => {
                 const{code} =res.data;
@@ -147,7 +155,9 @@ export default {
                     method:'POST',
                     data:props
                 }).then(res => {
-                    console.log(res.data)
+                   // 注册成功后帮用户自动登录
+                        // commit接受两个参数，第一个mutations参数是方法名，第二个参数数据
+                        this.$store.commit("user/setUserInfo", res.data)
                 })
              }
          });

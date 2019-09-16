@@ -1,5 +1,8 @@
 <template>
-  <div class="bo">酒店</div>
+  <el-breadcrumb separator="/"  class="juzhong">
+  <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+  <el-breadcrumb-item>活动管理</el-breadcrumb-item>
+</el-breadcrumb>
 </template>
 
 <script>
@@ -8,6 +11,6 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="less" scoped>
+   
 </style>
